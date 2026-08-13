@@ -24,24 +24,22 @@ class RiskModelEngine:
         self.metrics = {}
         self.is_calibrated = True
 
-    def train_pipeline(self, df: pd.DataFrame) -> Dict[str, Any]:
+    def train_pipeline(self, df: pd.DataFrame, fast_mode: bool = False) -> Dict[str, Any]:
         """
         Executes end-to-end training pipeline with temporal split (70% train, 15% val, 15% test).
-        Ensures NO future leakage.
+        If fast_mode=True, uses a 10,000 sample for sub-second startup execution on cloud hosts like Render.
         """
         os.makedirs(MODEL_DIR, exist_ok=True)
-        print(f"[*] Starting model training on dataset with {len(df):,} transactions...")
+        print(f"[*] Starting model training on dataset with {len(df):,} transactions (fast_mode={fast_mode})...")
 
-        # 1. Feature Engineering with Memory Optimization (float32 downcasting)
         df_feat = compute_temporal_features(df)
 
-        # On memory-constrained cloud environments (e.g. Render 512MB RAM free tier),
-        # downsample legitimate class while preserving 100% of fraud instances to keep RAM < 180MB.
-        is_render = os.getenv("RENDER", "false").lower() == "true" or os.getenv("ENV") == "production"
-        if is_render and len(df_feat) > 60000:
-            print("[*] Render memory optimization: Downsampling legitimate transactions for low RAM footprint...")
+        is_render = os.getenv("RENDER", "false").lower() == "true" or os.getenv("ENV") == "production" or fast_mode
+        if is_render and len(df_feat) > 10000:
+            sample_size = 8000 if fast_mode else 49500
+            print(f"[*] Memory & Speed optimization: Sampling {sample_size:,} transactions for instant execution...")
             fraud_df = df_feat[df_feat['Class'] == 1]
-            legit_df = df_feat[df_feat['Class'] == 0].sample(n=49500, random_state=42)
+            legit_df = df_feat[df_feat['Class'] == 0].sample(n=min(sample_size, len(df_feat[df_feat['Class'] == 0])), random_state=42)
             df_feat = pd.concat([fraud_df, legit_df]).sort_values('Time').reset_index(drop=True)
 
         X = df_feat[self.feature_names].astype(np.float32)

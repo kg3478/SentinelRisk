@@ -82,7 +82,7 @@ def startup_event():
         print("[*] No pre-trained model artifact found. Initiating model training pipeline on real dataset...")
         try:
             df, _ = load_and_validate_dataset()
-            global_risk_engine.train_pipeline(df)
+            global_risk_engine.train_pipeline(df, fast_mode=True)
         except Exception as e:
             print(f"[!] Warning: Model initial training skipped on startup: {e}")
     
