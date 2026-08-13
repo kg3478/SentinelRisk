@@ -32,11 +32,20 @@ class RiskModelEngine:
         os.makedirs(MODEL_DIR, exist_ok=True)
         print(f"[*] Starting model training on dataset with {len(df):,} transactions...")
 
-        # 1. Feature Engineering
+        # 1. Feature Engineering with Memory Optimization (float32 downcasting)
         df_feat = compute_temporal_features(df)
 
-        X = df_feat[self.feature_names]
-        y = df_feat['Class'].astype(int)
+        # On memory-constrained cloud environments (e.g. Render 512MB RAM free tier),
+        # downsample legitimate class while preserving 100% of fraud instances to keep RAM < 180MB.
+        is_render = os.getenv("RENDER", "false").lower() == "true" or os.getenv("ENV") == "production"
+        if is_render and len(df_feat) > 60000:
+            print("[*] Render memory optimization: Downsampling legitimate transactions for low RAM footprint...")
+            fraud_df = df_feat[df_feat['Class'] == 1]
+            legit_df = df_feat[df_feat['Class'] == 0].sample(n=49500, random_state=42)
+            df_feat = pd.concat([fraud_df, legit_df]).sort_values('Time').reset_index(drop=True)
+
+        X = df_feat[self.feature_names].astype(np.float32)
+        y = df_feat['Class'].astype(np.int8)
 
         # 2. Strict Temporal Split (No Random Shuffling)
         n = len(df_feat)

@@ -11,6 +11,12 @@ services:
     envVars:
       - key: ENV
         value: production
+      - key: RENDER
+        value: "true"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: MALLOC_ARENA_MAX
+        value: "2"
       - key: DATABASE_URL
         value: sqlite:///./sentinelrisk.db
       - key: SECRET_KEY

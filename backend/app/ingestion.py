@@ -15,7 +15,12 @@ def load_and_validate_dataset(csv_path: str = None) -> Tuple[pd.DataFrame, Dict[
             f"Dataset not found at '{path}'. Please run 'python data/download_dataset.py' to acquire the MLG-ULB Credit Card Fraud dataset."
         )
 
-    df = pd.read_csv(path)
+    # Downcast floats to float32 to reduce memory footprint by 50% for 512MB RAM cloud tiers
+    dtype_dict = {f"V{i}": "float32" for i in range(1, 29)}
+    dtype_dict["Amount"] = "float32"
+    dtype_dict["Time"] = "float32"
+
+    df = pd.read_csv(path, dtype=dtype_dict)
     
     # Standardize Class column
     if 'Class' not in df.columns and 'class' in df.columns:
