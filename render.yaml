@@ -22,7 +22,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
 
-  # --- Frontend Service (Next.js) ---
+  # --- Frontend Service (Next.js 14) ---
   - type: web
     name: sentinelrisk-frontend
     env: node
@@ -32,6 +32,8 @@ services:
     buildCommand: "npm install && npm run build"
     startCommand: "npm start"
     envVars:
+      - key: NODE_VERSION
+        value: "20.11.0"
       - key: NEXT_PUBLIC_API_URL
         fromService:
           type: web
