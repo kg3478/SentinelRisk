@@ -18,7 +18,7 @@ Fraud detection is not a simple binary classification problem (`fraud = 0 / 1`).
 3. **Model vs. Action Separation**: Machine learning estimates risk probability. A decision engine determines what to do (`ALLOW`, `CHALLENGE`, `REVIEW`, `BLOCK`).
 4. **Auditability**: Every decision must produce human-readable evidence for compliance and analyst review.
 
-### Decision Pipeline Architecture
+### Core Decision Pipeline
 
 ```mermaid
 flowchart TB
@@ -49,21 +49,22 @@ flowchart TB
 
 ## 2. Benchmark Dataset & Provenance
 
-SentinelRisk uses the official **MLG-ULB Credit Card Fraud Detection dataset** published on Kaggle/OpenML:
+SentinelRisk strictly uses the official **MLG-ULB Credit Card Fraud Detection dataset** published by ULB Machine Learning Group & Worldline collaboration:
 
 - **Source**: [ULB Machine Learning Group Credit Card Dataset](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud)
-- **OpenML ID**: `#42175` / `#1597`
+- **OpenML Reference**: `#42175` / `#1597`
 - **Total Transactions**: 284,807
-- **Fraudulent Cases**: 492 (~0.1727% Fraud Rate)
-- **Time Span**: 48 hours of European cardholder transactions
+- **Fraudulent Cases (`Class = 1`)**: 492 (~0.1727% Fraud Rate)
+- **Time Span**: 48 hours (172,792 seconds) of European cardholder transactions in September 2013
+- **Features**: `Time`, `Amount`, `V1`–`V28` (PCA-transformed anonymized feature vectors), `Class`
 
-> **Notice**: This is anonymized public research benchmark data used for model development and reproducible evaluation, not live streaming production bank data.
+> **Real-Data Policy Disclosure**: This is real public research benchmark data used for model development, calibration, and reproducible evaluation. It does not represent live streaming production data from any bank or payment network.
 
 ---
 
 ## 3. Measured Evaluation Results
 
-Model performance was evaluated on an unseen **15% chronological test split** (42,722 transactions, 52 fraud cases):
+Evaluated on an unseen **15% chronological test split** (42,722 transactions, 52 fraud cases):
 
 | Metric | Score | Description |
 | :--- | :--- | :--- |
@@ -80,7 +81,7 @@ Model performance was evaluated on an unseen **15% chronological test split** (4
 
 - **Temporal Leakage-Safe Feature Engineering**: Calculates rolling velocities (1h, 6h, 24h) and amount z-scores strictly obeying causal ordering ($t \le T$).
 - **Calibrated Risk Score (0–100)**: Sigmoidal Platt scaling maps raw decision tree outputs to true probabilities.
-- **Hybrid ML + Rule Engine**: Combines calibrated ML risk scores with versioned deterministic risk rules (`RULE_EXTREME_AMOUNT`, `RULE_HIGH_VELOCITY`, `RULE_NIGHT_HIGH_VALUE`, `RULE_ANOMALOUS_PATTERN`).
+- **Hybrid ML + Rule Engine**: Combines calibrated ML risk scores with versioned deterministic risk rules (`RULE_EXTREME_AMOUNT`, `RULE_HIGH_VELOCITY`, `RULE_NIGHT_HIGH_VALUE`, `RULE_ANOMALOUS_PATTERN`, `RULE_SCORE_BREACH`).
 - **SHAP Signal Explainability**: Formulates signal contribution statements explaining model predictions without making false causal claims.
 - **Cost-Sensitive Threshold Simulator**: Interactively simulates trade-offs between false-positive friction costs, missed-fraud penalties, and manual review operational expenses.
 - **Analyst Investigation Queue**: Full case management interface allowing fraud analysts to inspect evidence and log decision overrides with audit logs.
@@ -90,15 +91,20 @@ Model performance was evaluated on an unseen **15% chronological test split** (4
 
 ## 5. API Overview
 
-| Endpoint | Method | Description |
+| Endpoint | Method | Purpose |
 | :--- | :--- | :--- |
-| `/api/v1/health` | GET | Health check & model status |
+| `/api/v1/health` | GET | Health check & active model version |
 | `/api/v1/transactions/score` | POST | Real-time single transaction risk evaluation |
 | `/api/v1/transactions/batch-score` | POST | Batch transaction scoring |
+| `/api/v1/transactions/{id}` | GET | Fetch transaction details & decision history |
 | `/api/v1/cases` | GET | List analyst investigation queue |
+| `/api/v1/cases/{id}` | GET | Fetch investigation case details |
 | `/api/v1/cases/{id}/override` | POST | Submit analyst decision override with audit justification |
 | `/api/v1/simulate/threshold` | POST | Run cost-sensitive threshold what-if simulation |
-| `/api/v1/monitoring` | GET | Fetch PSI drift metrics and model health |
+| `/api/v1/monitoring` | GET | Fetch Population Stability Index (PSI) drift & health |
+| `/api/v1/metrics` | GET | Fetch model evaluation metrics |
+| `/api/v1/dataset/ingest` | POST | Trigger dataset validation report |
+| `/api/v1/model/train` | POST | Trigger model retraining pipeline |
 
 ---
 
@@ -159,7 +165,7 @@ sentinelrisk/
 │   │   ├── api.py             # REST API routers
 │   │   ├── config.py          # Configuration settings
 │   │   ├── db.py              # SQLAlchemy engine
-│   │   ├── models.py          # Database ORM schema
+│   │   ├── models.py          # Database ORM schema (16 tables)
 │   │   ├── schemas.py         # Pydantic v2 validation models
 │   │   ├── ingestion.py       # Data loading & quality validation
 │   │   ├── features.py        # Temporal leakage-safe feature engineering
@@ -177,50 +183,28 @@ sentinelrisk/
 ├── data/                      # Dataset ingestion script & provenance docs
 ├── docs/                      # ARCHITECTURE, PRODUCT, DATA, ML, EVALUATION, LIMITATIONS
 ├── docker-compose.yml         # Container orchestration
+├── render.yaml                # Render Blueprint deployment configuration
 ├── pytest.ini                 # Pytest configuration
 └── README.md
 ```
 
 ---
 
-## 8. Current System Limitations & Disclaimers
+## 8. Limitations & Planned Engineering Upgrades
 
-While SentinelRisk models a complete production-grade decision intelligence platform, the following inherent limitations apply:
+The table below outlines current architectural boundaries and the target engineering upgrades designed to overcome them:
 
-1. **Anonymized Research Features**: Features `V1`–`V28` are PCA-transformed anonymized vectors from historical European card transactions (September 2013). High-dimensional raw features (IP geolocation, device fingerprints, merchant category codes, card BIN country) are abstracted.
-2. **Historical Benchmark Data**: SentinelRisk uses real public benchmark data for model development, calibration, and reproducible evaluation, but it is not connected to a live streaming bank or card network pipeline (e.g. Visa Direct, Mastercard Send, Stripe webhooks).
-3. **Delayed Fraud Chargeback Labels**: Real-world fraud labels arrive with a 30–90 day chargeback lag. SentinelRisk assumes historical ground-truth labels are available for offline evaluation partitions.
-4. **Offline Drift Monitoring**: Feature drift monitoring uses Population Stability Index (PSI) against historical training baseline distributions rather than streaming real-time production drift windows.
-5. **Demonstration Scenarios**: The live authorization sandbox includes synthetic test scenarios labeled explicitly as `SYNTHETIC TEST FIXTURE` for interactive demonstration.
-
----
-
-## 9. Future Engineering Roadmap & Upgrades
-
-Planned architectural upgrades to expand SentinelRisk into an enterprise payment defense infrastructure:
-
-- [ ] **Streaming Data Engineering & Event-Driven Architecture**:
-  - Integrate **Apache Kafka / Redpanda** for high-throughput streaming transaction ingestion (>10,000 tx/sec).
-  - Deploy **Apache Flink / Spark Streaming** for real-time stateful velocity windows (sub-second rolling aggregations).
-
-- [ ] **Graph-Based Fraud Detection (Graph Neural Networks - GNNs)**:
-  - Construct transaction entity graphs (`Card` → `IP` → `Device` → `Merchant` → `Recipient Account`).
-  - Train **PyTorch Geometric / DGL GNNs** to detect coordinated fraud rings, BIN attacks, and card testing networks.
-
-- [ ] **Online ML & Adaptive Continuous Retraining**:
-  - Implement incremental online learning algorithms (**River / Hoeffding Trees**) to adapt dynamically to evolving fraud patterns without full model retrains.
-
-- [ ] **Low-Latency Feature Store Integration (Feast / Hopsworks)**:
-  - Deploy **Feast** low-latency online feature store to synchronize real-time feature retrieval with batch feature generation pipelines.
-
-- [ ] **LLM Analyst Investigation Assistant**:
-  - Integrate LLM-powered narrative generators (RAG on transaction context & rule evidence) to automatically draft case investigation summaries for fraud analysts.
-
-- [ ] **Enterprise Auth & Multi-Tenant Isolation**:
-  - OAuth2 / OIDC integration (Keycloak / Auth0) with granular Role-Based Access Control (RBAC), multi-tenant organization isolation, and SOC2-compliant audit log exports.
+| # | Current System Limitation | Technical Constraint | Planned Future Upgrade | Target Engineering Solution |
+|---|:---|:---|:---|:---|
+| 1 | **Anonymized Research Features** | Dataset features `V1`–`V28` are PCA vectors, omitting raw IP geolocation, device fingerprints, and merchant category codes. | **Graph Neural Networks (GNNs) & Entity Resolution** | Build heterogeneous transaction graphs (`Card` → `IP` → `Device` → `Merchant`) with **PyTorch Geometric / DGL** to detect coordinated fraud rings. |
+| 2 | **Batch Historical Data Pipeline** | Ingested from static CSV files rather than streaming authorization events. | **Streaming Event-Driven Architecture** | Deploy **Apache Kafka / Redpanda** + **Apache Flink** for streaming ingestion (>10,000 tx/sec) and stateful sub-second rolling velocity windows. |
+| 3 | **Delayed Fraud Chargeback Labels** | Real-world fraud labels arrive with a 30–90 day chargeback lag, complicating real-time supervised updates. | **Adaptive Online ML & Semi-Supervised Learning** | Implement incremental online learning algorithms (**River / Hoeffding Trees**) with semi-supervised pseudo-labeling for unconfirmed transactions. |
+| 4 | **Offline Drift Monitoring** | Population Stability Index (PSI) is calculated against fixed historical training partitions. | **Low-Latency Feature Store & Live Drift Alerts** | Integrate **Feast Online Feature Store** + **Evidently AI** to monitor streaming feature drift, concept drift, and data quality in sliding real-time windows. |
+| 5 | **Manual Analyst Case Summaries** | Fraud analysts must manually read evidence and rule triggers when investigating flagged cases. | **LLM RAG Analyst Investigation Assistant** | Implement an **LLM Agent** (RAG over transaction features, rule evidence, and SHAP vectors) to automatically generate case investigation summaries. |
+| 6 | **Monolithic Auth & Storage** | Embedded SQLite / single DB instance without enterprise multi-tenant access control. | **Enterprise OIDC & Multi-Tenant Isolation** | Integrate **OAuth2 / Keycloak** with fine-grained Role-Based Access Control (RBAC), multi-tenant organization boundaries, and SOC2-compliant audit logs. |
 
 ---
 
-## 10. License & Disclaimers
+## 9. License & Disclaimers
 
 Built under the **MIT License**. Developed for research, interview demonstration, and fintech portfolio evaluation.
