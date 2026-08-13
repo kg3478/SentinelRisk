@@ -1,0 +1,33 @@
+services:
+  # --- Backend Service (FastAPI) ---
+  - type: web
+    name: sentinelrisk-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: "pip install -r backend/requirements.txt && python data/download_dataset.py"
+    startCommand: "uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: ENV
+        value: production
+      - key: DATABASE_URL
+        value: sqlite:///./sentinelrisk.db
+      - key: SECRET_KEY
+        generateValue: true
+
+  # --- Frontend Service (Next.js) ---
+  - type: web
+    name: sentinelrisk-frontend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: frontend
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: sentinelrisk-backend
+          property: host
