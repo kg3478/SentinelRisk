@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Activity, ShieldCheck, Cpu, Clock, CheckCircle2, RefreshCw } from "lucide-react";
-import { fetchMonitoringMetrics, MonitoringMetrics } from "@/lib/api";
+import { fetchMonitoringMetrics, MonitoringMetrics } from "../../lib/api";
 
 export default function MonitoringPage() {
   const [data, setData] = useState<MonitoringMetrics | null>(null);

@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { ShieldQuestion, CheckCircle, XCircle, Search, Filter, MessageSquare, AlertTriangle } from "lucide-react";
-import { fetchCases, overrideCaseDecision } from "@/lib/api";
-import { DecisionBadge } from "@/components/DecisionBadge";
+import { fetchCases, overrideCaseDecision } from "../../lib/api";
+import { DecisionBadge } from "../../components/DecisionBadge";
 
 export default function CasesPage() {
   const [cases, setCases] = useState<any[]>([]);

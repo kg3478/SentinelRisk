@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Sliders, DollarSign, ShieldAlert, TrendingDown, CheckCircle2, RefreshCw } from "lucide-react";
-import { runSimulation, ThresholdSimulationResponse } from "@/lib/api";
+import { runSimulation, ThresholdSimulationResponse } from "../../lib/api";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 export default function ThresholdsPage() {

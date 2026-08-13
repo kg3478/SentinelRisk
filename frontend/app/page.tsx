@@ -7,7 +7,7 @@ import {
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area 
 } from "recharts";
-import { DecisionBadge } from "@/components/DecisionBadge";
+import { DecisionBadge } from "../components/DecisionBadge";
 import Link from "next/link";
 
 const riskDistributionData = [

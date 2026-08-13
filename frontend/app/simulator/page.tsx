@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Zap, Play, AlertCircle, ShieldAlert, CheckCircle2, Sliders, Info } from "lucide-react";
-import { RiskGauge } from "@/components/RiskGauge";
-import { DecisionBadge } from "@/components/DecisionBadge";
-import { scoreTransaction, TransactionScoreResponse } from "@/lib/api";
+import { RiskGauge } from "../../components/RiskGauge";
+import { DecisionBadge } from "../../components/DecisionBadge";
+import { scoreTransaction, TransactionScoreResponse } from "../../lib/api";
 
 interface ScenarioPreset {
   name: string;
