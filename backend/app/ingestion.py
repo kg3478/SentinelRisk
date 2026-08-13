@@ -1,4 +1,5 @@
 import os
+import sys
 import hashlib
 import pandas as pd
 from typing import Dict, Any, Tuple
@@ -11,8 +12,16 @@ def load_and_validate_dataset(csv_path: str = None) -> Tuple[pd.DataFrame, Dict[
     """
     path = csv_path or settings.DATA_PATH
     if not os.path.exists(path):
+        print(f"[*] Dataset not found at '{path}'. Running automatic downloader...")
+        try:
+            import subprocess
+            subprocess.run([sys.executable, "data/download_dataset.py"], check=True)
+        except Exception as e:
+            print(f"[!] Warning: Auto-download script failed: {e}")
+
+    if not os.path.exists(path):
         raise FileNotFoundError(
-            f"Dataset not found at '{path}'. Please run 'python data/download_dataset.py' to acquire the MLG-ULB Credit Card Fraud dataset."
+            f"Dataset not found at '{path}'. Please run 'python data/download_dataset.py' to acquire the dataset."
         )
 
     # Downcast floats to float32 to reduce memory footprint by 50% for 512MB RAM cloud tiers
