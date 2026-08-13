@@ -112,7 +112,7 @@ Model performance was evaluated on an unseen **15% chronological test split** (4
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/username/sentinelrisk.0git
+git clone https://github.com/kg3478/SentinelRisk.git
 cd SentinelRisk
 
 # 2. Set up Python virtual environment & dependencies
@@ -183,6 +183,44 @@ sentinelrisk/
 
 ---
 
-## 8. License & Disclaimers
+## 8. Current System Limitations & Disclaimers
 
-Built under the MIT License. Developed for research, interview demonstration, and fintech portfolio evaluation.
+While SentinelRisk models a complete production-grade decision intelligence platform, the following inherent limitations apply:
+
+1. **Anonymized Research Features**: Features `V1`–`V28` are PCA-transformed anonymized vectors from historical European card transactions (September 2013). High-dimensional raw features (IP geolocation, device fingerprints, merchant category codes, card BIN country) are abstracted.
+2. **Historical Benchmark Data**: SentinelRisk uses real public benchmark data for model development, calibration, and reproducible evaluation, but it is not connected to a live streaming bank or card network pipeline (e.g. Visa Direct, Mastercard Send, Stripe webhooks).
+3. **Delayed Fraud Chargeback Labels**: Real-world fraud labels arrive with a 30–90 day chargeback lag. SentinelRisk assumes historical ground-truth labels are available for offline evaluation partitions.
+4. **Offline Drift Monitoring**: Feature drift monitoring uses Population Stability Index (PSI) against historical training baseline distributions rather than streaming real-time production drift windows.
+5. **Demonstration Scenarios**: The live authorization sandbox includes synthetic test scenarios labeled explicitly as `SYNTHETIC TEST FIXTURE` for interactive demonstration.
+
+---
+
+## 9. Future Engineering Roadmap & Upgrades
+
+Planned architectural upgrades to expand SentinelRisk into an enterprise payment defense infrastructure:
+
+- [ ] **Streaming Data Engineering & Event-Driven Architecture**:
+  - Integrate **Apache Kafka / Redpanda** for high-throughput streaming transaction ingestion (>10,000 tx/sec).
+  - Deploy **Apache Flink / Spark Streaming** for real-time stateful velocity windows (sub-second rolling aggregations).
+
+- [ ] **Graph-Based Fraud Detection (Graph Neural Networks - GNNs)**:
+  - Construct transaction entity graphs (`Card` → `IP` → `Device` → `Merchant` → `Recipient Account`).
+  - Train **PyTorch Geometric / DGL GNNs** to detect coordinated fraud rings, BIN attacks, and card testing networks.
+
+- [ ] **Online ML & Adaptive Continuous Retraining**:
+  - Implement incremental online learning algorithms (**River / Hoeffding Trees**) to adapt dynamically to evolving fraud patterns without full model retrains.
+
+- [ ] **Low-Latency Feature Store Integration (Feast / Hopsworks)**:
+  - Deploy **Feast** low-latency online feature store to synchronize real-time feature retrieval with batch feature generation pipelines.
+
+- [ ] **LLM Analyst Investigation Assistant**:
+  - Integrate LLM-powered narrative generators (RAG on transaction context & rule evidence) to automatically draft case investigation summaries for fraud analysts.
+
+- [ ] **Enterprise Auth & Multi-Tenant Isolation**:
+  - OAuth2 / OIDC integration (Keycloak / Auth0) with granular Role-Based Access Control (RBAC), multi-tenant organization isolation, and SOC2-compliant audit log exports.
+
+---
+
+## 10. License & Disclaimers
+
+Built under the **MIT License**. Developed for research, interview demonstration, and fintech portfolio evaluation.
