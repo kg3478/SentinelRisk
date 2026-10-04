@@ -18,7 +18,10 @@ Fraud detection is not a simple binary classification problem (`fraud = 0 / 1`).
 3. **Model vs. Action Separation**: Machine learning estimates risk probability. A decision engine determines what to do (`ALLOW`, `CHALLENGE`, `REVIEW`, `BLOCK`).
 4. **Auditability**: Every decision must produce human-readable evidence for compliance and analyst review.
 
+
 ### Core Decision Pipeline
+
+![SentinelRisk Architecture Diagram](docs/assets/architecture_diagram.svg)
 
 ```mermaid
 flowchart TB
@@ -181,7 +184,21 @@ sentinelrisk/
 │   └── tests/                 # Unit & integration test suite
 │
 ├── data/                      # Dataset ingestion script & provenance docs
-├── docs/                      # ARCHITECTURE, PRODUCT, DATA, ML, EVALUATION, LIMITATIONS
+├── docs/                      # Comprehensive technical documentation suite
+│   ├── assets/                # High-resolution architectural & operational SVGs
+│   ├── ARCHITECTURE.md        # Technical architecture, modular monolith, & latency SLAs
+│   ├── USER_FLOWS.md          # End-to-end user journeys, authorization flow & case triage
+│   ├── DATA_PIPELINE.md       # Benchmark dataset, causal ordering & rolling velocities
+│   ├── MACHINE_LEARNING.md    # Class imbalance, LightGBM, Platt scaling & SHAP signals
+│   ├── DECISION_ENGINE_AND_RULES.md # 4-tier decision matrix & deterministic rules
+│   ├── SIMULATOR_AND_ECONOMICS.md   # Cost-sensitive threshold modeling & financial curves
+│   ├── CASE_MANAGEMENT_AND_AUDIT.md # Investigation queue & immutable audit trail
+│   ├── MONITORING_AND_DRIFT.md      # Population Stability Index (PSI) & retrain runbooks
+│   ├── API_REFERENCE.md       # Complete REST API request/response specifications
+│   ├── EVALUATION.md          # Benchmark test results, PR-AUC & comparative metrics
+│   ├── PRODUCT.md             # Product strategy, target personas & business KPIs
+│   ├── LIMITATIONS.md         # Technical boundaries & future engineering roadmap
+│   └── README.md              # Central documentation hub & sitemap
 ├── docker-compose.yml         # Container orchestration
 ├── render.yaml                # Render Blueprint deployment configuration
 ├── pytest.ini                 # Pytest configuration
@@ -190,7 +207,28 @@ sentinelrisk/
 
 ---
 
-## 8. Limitations & Planned Engineering Upgrades
+## 8. Technical Documentation Hub
+
+For in-depth architectural and engineering specifications, explore the [docs/](docs/README.md) directory:
+
+| Document | Key Topics Covered |
+| :--- | :--- |
+| **[Architecture](docs/ARCHITECTURE.md)** | Modular monolith, sub-20ms SLA, component interactions, database schema & latency budget. |
+| **[User Flows](docs/USER_FLOWS.md)** | Swimlane diagrams, authorization lifecycle, analyst investigation journeys & state machines. |
+| **[Data Pipeline](docs/DATA_PIPELINE.md)** | MLG-ULB dataset provenance, strict causal ordering ($t \le T$), rolling velocities & cyclic encodings. |
+| **[Machine Learning](docs/MACHINE_LEARNING.md)** | LightGBM GBDT, dynamic `scale_pos_weight`, Platt scaling calibration, Brier score & SHAP signals. |
+| **[Decision Engine & Rules](docs/DECISION_ENGINE_AND_RULES.md)** | 4-tier policy (`ALLOW`, `CHALLENGE`, `REVIEW`, `BLOCK`), 5 deterministic safety rules & conflict resolution. |
+| **[Simulator & Economics](docs/SIMULATOR_AND_ECONOMICS.md)** | Cost-sensitive threshold optimization, FP friction vs missed fraud vs review costs, and profit-maximizing math. |
+| **[Case Management & Audit](docs/CASE_MANAGEMENT_AND_AUDIT.md)** | Human-in-the-loop queue, evidence inspection, decision overrides, and PCI-DSS / SOC2 audit logs. |
+| **[Monitoring & Drift](docs/MONITORING_AND_DRIFT.md)** | Population Stability Index (PSI) formulation, health metrics, latency SLAs & automated retraining. |
+| **[API Reference](docs/API_REFERENCE.md)** | Complete OpenAPI / REST specification with full JSON schemas and curl examples. |
+| **[Evaluation](docs/EVALUATION.md)** | Empirical test results on 42,722 unseen transactions, PR-AUC ($0.8542$), ROC-AUC ($0.9610$) & baseline comparisons. |
+| **[Product Strategy](docs/PRODUCT.md)** | Strategic vision, target user personas (Analyst, Risk Manager, PM, MLE) & business KPIs. |
+| **[Limitations & Roadmap](docs/LIMITATIONS.md)** | Current technical boundaries and planned upgrades (Kafka/Flink, GNNs, LLM Copilot, River online ML). |
+
+---
+
+## 9. Limitations & Planned Engineering Upgrades
 
 The table below outlines current architectural boundaries and the target engineering upgrades designed to overcome them:
 

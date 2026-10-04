@@ -1,0 +1,338 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#070b14"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="emeraldGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="amberGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="roseGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+
+    <!-- Filters for subtle glow -->
+    <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#818cf8"/>
+    </marker>
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrow-rose" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 24px; font-weight: 800; fill: #ffffff; letter-spacing: -0.5px; }
+    .subtitle { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; fill: #94a3b8; }
+    .layer-title { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; fill: #64748b; letter-spacing: 1.5px; text-transform: uppercase; }
+    .node-title { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; fill: #f8fafc; }
+    .node-desc { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; fill: #94a3b8; }
+    .badge { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; }
+    .conn-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; fill: #cbd5e1; }
+  </style>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="740" fill="url(#bgGrad)" rx="16"/>
+  <rect x="1" y="1" width="1198" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="16"/>
+
+  <!-- Grid overlay lines -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="120" x2="1200" y2="120"/>
+    <line x1="0" y1="260" x2="1200" y2="260"/>
+    <line x1="0" y1="460" x2="1200" y2="460"/>
+    <line x1="0" y1="620" x2="1200" y2="620"/>
+    <line x1="260" y1="0" x2="260" y2="740"/>
+    <line x1="560" y1="0" x2="560" y2="740"/>
+    <line x1="880" y1="0" x2="880" y2="740"/>
+  </g>
+
+  <!-- Header Section -->
+  <g transform="translate(40, 42)">
+    <rect x="-8" y="-6" width="34" height="34" rx="8" fill="#6366f1" opacity="0.2"/>
+    <path d="M 9 2 L 2 6 L 2 13 C 2 17.5 5 21.5 9 23 C 13 21.5 16 17.5 16 13 L 16 6 Z" fill="none" stroke="#818cf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="36" y="12" class="title">SentinelRisk Technical Architecture</text>
+    <text x="36" y="28" class="subtitle">End-to-End Real-Time Transaction Risk Scoring &amp; Fraud Decision Intelligence Engine</text>
+    <rect x="940" y="-8" width="170" height="32" rx="16" fill="#1e293b" stroke="#334155"/>
+    <circle cx="956" cy="8" r="4" fill="#10b981"/>
+    <text x="968" y="12" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#cbd5e1">Sub-20ms SLA | P99</text>
+  </g>
+
+  <!-- ================= SECTION 1: INGESTION & DATA (X: 40 - 240) ================= -->
+  <text x="50" y="112" class="layer-title">1. INGESTION &amp; DATA QUALITY</text>
+
+  <!-- Card 1.1: Payment Gateway Payload -->
+  <g transform="translate(40, 130)">
+    <rect width="210" height="96" rx="10" fill="url(#cardGrad)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="12" y="12" width="28" height="28" rx="6" fill="#1e3a8a"/>
+    <text x="26" y="30" font-size="14" text-anchor="middle" fill="#60a5fa">⚡</text>
+    <text x="48" y="26" class="node-title">Payment Payload</text>
+    <text x="48" y="40" class="node-desc">POST /transactions/score</text>
+    <text x="12" y="66" class="node-desc">Amount, Timestamp, V1-V28</text>
+    <text x="12" y="82" class="node-desc">Card Token &amp; External TX ID</text>
+  </g>
+
+  <!-- Card 1.2: Benchmark Dataset -->
+  <g transform="translate(40, 246)">
+    <rect width="210" height="96" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1"/>
+    <rect x="12" y="12" width="28" height="28" rx="6" fill="#0f2b38"/>
+    <text x="26" y="30" font-size="14" text-anchor="middle" fill="#38bdf8">📊</text>
+    <text x="48" y="26" class="node-title">MLG-ULB Dataset</text>
+    <text x="48" y="40" class="node-desc">284,807 Real Transactions</text>
+    <text x="12" y="66" class="node-desc">0.1727% Class Imbalance</text>
+    <text x="12" y="82" class="node-desc">492 Fraud / 284,314 Legit</text>
+  </g>
+
+  <!-- Card 1.3: Quality Validation -->
+  <g transform="translate(40, 362)">
+    <rect width="210" height="88" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1"/>
+    <rect x="12" y="12" width="28" height="28" rx="6" fill="#14362a"/>
+    <text x="26" y="30" font-size="14" text-anchor="middle" fill="#34d399">🛡️</text>
+    <text x="48" y="26" class="node-title">Ingestion &amp; Validation</text>
+    <text x="48" y="40" class="node-desc">backend/app/ingestion.py</text>
+    <text x="12" y="66" class="node-desc">SHA-256 integrity, null check,</text>
+    <text x="12" y="80" class="node-desc">schema validation &amp; reporting</text>
+  </g>
+
+  <!-- ================= SECTION 2: TEMPORAL FEATURE ENGINE (X: 290 - 490) ================= -->
+  <text x="300" y="112" class="layer-title">2. TEMPORAL FEATURE ENGINE</text>
+
+  <!-- Big Feature Engine Box -->
+  <g transform="translate(290, 130)">
+    <rect width="210" height="320" rx="12" fill="url(#cardGrad)" stroke="#06b6d4" stroke-width="1.8"/>
+    <rect x="14" y="14" width="30" height="30" rx="6" fill="#083344"/>
+    <text x="29" y="34" font-size="15" text-anchor="middle" fill="#22d3ee">⏱️</text>
+    <text x="52" y="28" class="node-title">Causal Feature Store</text>
+    <text x="52" y="44" class="node-desc">backend/app/features.py</text>
+
+    <!-- Sub-feature 1 -->
+    <rect x="12" y="64" width="186" height="52" rx="6" fill="#0f172a" stroke="#1e293b"/>
+    <text x="20" y="82" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#e2e8f0">Strict Temporal Order</text>
+    <text x="20" y="98" class="node-desc">Causal constraint: t &lt;= T</text>
+    <text x="20" y="110" font-size="9" fill="#06b6d4" font-family="monospace">Zero future target leakage</text>
+
+    <!-- Sub-feature 2 -->
+    <rect x="12" y="124" width="186" height="58" rx="6" fill="#0f172a" stroke="#1e293b"/>
+    <text x="20" y="142" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#e2e8f0">Rolling Velocities</text>
+    <text x="20" y="158" class="node-desc">tx_velocity_1h (3600s)</text>
+    <text x="20" y="172" class="node-desc">tx_velocity_6h &amp; 24h sum</text>
+
+    <!-- Sub-feature 3 -->
+    <rect x="12" y="190" width="186" height="56" rx="6" fill="#0f172a" stroke="#1e293b"/>
+    <text x="20" y="208" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#e2e8f0">Amount Transforms</text>
+    <text x="20" y="224" class="node-desc">log1p(Amount), z-score</text>
+    <text x="20" y="238" class="node-desc">Relative spending deviation</text>
+
+    <!-- Sub-feature 4 -->
+    <rect x="12" y="254" width="186" height="54" rx="6" fill="#0f172a" stroke="#1e293b"/>
+    <text x="20" y="272" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#e2e8f0">Cyclic Time Encodings</text>
+    <text x="20" y="288" class="node-desc">sin(2π*hour/24), cos(...)</text>
+    <text x="20" y="300" class="node-desc">Smooth day/night cycle</text>
+  </g>
+
+  <!-- ================= SECTION 3: RISK SCORING & RULES (X: 540 - 740) ================= -->
+  <text x="550" y="112" class="layer-title">3. HYBRID ML &amp; DETERMINISTIC RULES</text>
+
+  <!-- Machine Learning Box -->
+  <g transform="translate(540, 130)">
+    <rect width="210" height="152" rx="10" fill="url(#cardGrad)" stroke="#818cf8" stroke-width="1.8"/>
+    <rect x="14" y="14" width="30" height="30" rx="6" fill="#2e1065"/>
+    <text x="29" y="34" font-size="15" text-anchor="middle" fill="#c084fc">🧠</text>
+    <text x="52" y="28" class="node-title">LightGBM GBDT</text>
+    <text x="52" y="44" class="node-desc">scale_pos_weight = 578:1</text>
+    
+    <line x1="14" y1="56" x2="196" y2="56" stroke="#334155"/>
+    <text x="14" y="74" class="node-title" fill="#a5b4fc">Platt Scale Calibrator</text>
+    <text x="14" y="90" class="node-desc">Sigmoidal CalibratedCV (3-fold)</text>
+    <text x="14" y="104" class="node-desc">Raw Tree → True P ∈ [0, 1]</text>
+    <rect x="14" y="114" width="182" height="26" rx="4" fill="#1e1b4b" stroke="#4338ca"/>
+    <text x="22" y="131" font-size="11" font-weight="700" fill="#818cf8">Risk Score: 0.0 - 100.0</text>
+    <text x="130" y="131" font-size="10" fill="#c7d2fe">Brier: 0.0012</text>
+  </g>
+
+  <!-- Deterministic Rules Engine Box -->
+  <g transform="translate(540, 298)">
+    <rect width="210" height="152" rx="10" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.8"/>
+    <rect x="14" y="14" width="30" height="30" rx="6" fill="#451a03"/>
+    <text x="29" y="34" font-size="15" text-anchor="middle" fill="#fbbf24">⚙️</text>
+    <text x="52" y="28" class="node-title">Risk Rules Engine</text>
+    <text x="52" y="44" class="node-desc">backend/app/rules.py</text>
+
+    <text x="14" y="68" font-size="10" fill="#fbbf24" font-weight="600">• RULE_EXTREME_AMOUNT (≥€2,500)</text>
+    <text x="14" y="84" font-size="10" fill="#fbbf24" font-weight="600">• RULE_HIGH_VELOCITY (≥5 tx/hr)</text>
+    <text x="14" y="100" font-size="10" fill="#fbbf24" font-weight="600">• RULE_NIGHT_HIGH_VALUE (1-5 AM)</text>
+    <text x="14" y="116" font-size="10" fill="#fbbf24" font-weight="600">• RULE_ANOMALOUS_PATTERN (V14/V12)</text>
+    <text x="14" y="132" font-size="10" fill="#ef4444" font-weight="700">• RULE_SCORE_BREACH (Score ≥ 75)</text>
+  </g>
+
+  <!-- ================= SECTION 4: DECISION POLICY & ACTIONS (X: 790 - 1160) ================= -->
+  <text x="800" y="112" class="layer-title">4. DECISION POLICY &amp; ACTIONS</text>
+
+  <!-- Decision Policy Hub -->
+  <g transform="translate(790, 130)">
+    <rect width="370" height="96" rx="12" fill="url(#cardGrad)" stroke="#6366f1" stroke-width="2"/>
+    <text x="18" y="28" class="node-title">Decision Policy Engine</text>
+    <text x="18" y="44" class="node-desc">backend/app/decisions.py | Hybrid ML + Rule Conflict Resolver</text>
+    
+    <g transform="translate(18, 56)">
+      <rect width="76" height="28" rx="6" fill="#064e3b" stroke="#10b981"/>
+      <text x="38" y="18" font-size="11" font-weight="800" fill="#6ee7b7" text-anchor="middle">ALLOW</text>
+    </g>
+    <g transform="translate(104, 56)">
+      <rect width="84" height="28" rx="6" fill="#451a03" stroke="#f59e0b"/>
+      <text x="42" y="18" font-size="11" font-weight="800" fill="#fcd34d" text-anchor="middle">CHALLENGE</text>
+    </g>
+    <g transform="translate(198, 56)">
+      <rect width="76" height="28" rx="6" fill="#431407" stroke="#f97316"/>
+      <text x="38" y="18" font-size="11" font-weight="800" fill="#fdba74" text-anchor="middle">REVIEW</text>
+    </g>
+    <g transform="translate(284, 56)">
+      <rect width="72" height="28" rx="6" fill="#4c0519" stroke="#ef4444"/>
+      <text x="36" y="18" font-size="11" font-weight="800" fill="#fca5a5" text-anchor="middle">BLOCK</text>
+    </g>
+  </g>
+
+  <!-- Explainability Box -->
+  <g transform="translate(790, 246)">
+    <rect width="175" height="100" rx="10" fill="url(#cardGrad)" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="12" y="24" class="node-title">Explainability</text>
+    <text x="12" y="38" class="node-desc">SHAP Signal Attribution</text>
+    <text x="12" y="58" class="node-desc">Calculates top feature</text>
+    <text x="12" y="72" class="node-desc">contributions (V14, Amount,</text>
+    <text x="12" y="86" class="node-desc">Velocity) without false causality</text>
+  </g>
+
+  <!-- Analyst Queue Box -->
+  <g transform="translate(985, 246)">
+    <rect width="175" height="100" rx="10" fill="url(#cardGrad)" stroke="#f97316" stroke-width="1.2"/>
+    <text x="12" y="24" class="node-title">Investigation Queue</text>
+    <text x="12" y="38" class="node-desc">Analyst Override Workflow</text>
+    <text x="12" y="58" class="node-desc">Auto-flags REVIEW &amp; BLOCK</text>
+    <text x="12" y="72" class="node-desc">Analyst inspects evidence &amp;</text>
+    <text x="12" y="86" class="node-desc">logs justification</text>
+  </g>
+
+  <!-- Simulator Box -->
+  <g transform="translate(790, 362)">
+    <rect width="175" height="88" rx="10" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.2"/>
+    <text x="12" y="24" class="node-title">Policy Simulator</text>
+    <text x="12" y="38" class="node-desc">Cost-Sensitive What-If</text>
+    <text x="12" y="58" class="node-desc">Simulates False Positive vs</text>
+    <text x="12" y="72" class="node-desc">Missed Fraud vs Review labor</text>
+  </g>
+
+  <!-- Audit Trail Box -->
+  <g transform="translate(985, 362)">
+    <rect width="175" height="88" rx="10" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.2"/>
+    <text x="12" y="24" class="node-title">Immutable Audit Log</text>
+    <text x="12" y="38" class="node-desc">SQLAlchemy 11+ Tables</text>
+    <text x="12" y="58" class="node-desc">Stores decisions, overrides,</text>
+    <text x="12" y="72" class="node-desc">trigger evidence &amp; timestamps</text>
+  </g>
+
+  <!-- ================= SECTION 5: LOWER MONITORING & GOVERNANCE BAR ================= -->
+  <g transform="translate(40, 485)">
+    <rect width="1120" height="215" rx="14" fill="#0b1329" stroke="#334155" stroke-width="1.5"/>
+    
+    <text x="24" y="32" class="layer-title" fill="#38bdf8">5. ENTERPRISE GOVERNANCE, DRIFT MONITORING &amp; REST INTERFACE</text>
+
+    <!-- Component A: Drift Monitoring -->
+    <g transform="translate(24, 52)">
+      <rect width="250" height="135" rx="8" fill="#111c38" stroke="#1e293b"/>
+      <text x="16" y="26" class="node-title">Population Stability (PSI)</text>
+      <text x="16" y="44" class="node-desc">Real-time Score &amp; Feature Drift</text>
+      <text x="16" y="68" font-size="11" fill="#94a3b8">Baseline PSI: <tspan fill="#34d399" font-weight="700">0.0182 (Stable)</tspan></text>
+      <text x="16" y="86" font-size="11" fill="#94a3b8">PSI Threshold: <tspan fill="#facc15">0.10 warning / 0.20 drift</tspan></text>
+      <text x="16" y="104" font-size="11" fill="#94a3b8">KS-Statistic Shift Detection</text>
+      <text x="16" y="122" font-size="10" fill="#38bdf8">backend/app/monitoring.py</text>
+    </g>
+
+    <!-- Component B: REST API Layer -->
+    <g transform="translate(295, 52)">
+      <rect width="260" height="135" rx="8" fill="#111c38" stroke="#1e293b"/>
+      <text x="16" y="26" class="node-title">FastAPI Backend Routers</text>
+      <text x="16" y="44" class="node-desc">Sub-20ms SLA Asynchronous Core</text>
+      <text x="16" y="68" font-size="11" fill="#cbd5e1" font-family="monospace">POST /transactions/score</text>
+      <text x="16" y="86" font-size="11" fill="#cbd5e1" font-family="monospace">POST /simulate/threshold</text>
+      <text x="16" y="104" font-size="11" fill="#cbd5e1" font-family="monospace">POST /cases/{id}/override</text>
+      <text x="16" y="122" font-size="10" fill="#818cf8">Pydantic v2 Strict Validation</text>
+    </g>
+
+    <!-- Component C: Next.js Frontend Console -->
+    <g transform="translate(575, 52)">
+      <rect width="260" height="135" rx="8" fill="#111c38" stroke="#1e293b"/>
+      <text x="16" y="26" class="node-title">Next.js 14 Web Console</text>
+      <text x="16" y="44" class="node-desc">App Router + Tailwind + Recharts</text>
+      <text x="16" y="68" font-size="11" fill="#94a3b8">• Executive KPI &amp; Risk Dashboard</text>
+      <text x="16" y="86" font-size="11" fill="#94a3b8">• Interactive Sandbox Simulator</text>
+      <text x="16" y="104" font-size="11" fill="#94a3b8">• Fraud Case Investigation Queue</text>
+      <text x="16" y="122" font-size="10" fill="#34d399">Live Glassmorphism Dark UI</text>
+    </g>
+
+    <!-- Component D: Storage & Deployment -->
+    <g transform="translate(855, 52)">
+      <rect width="240" height="135" rx="8" fill="#111c38" stroke="#1e293b"/>
+      <text x="16" y="26" class="node-title">Storage &amp; Deployment</text>
+      <text x="16" y="44" class="node-desc">Modular Micro-Deployable</text>
+      <text x="16" y="68" font-size="11" fill="#94a3b8">• SQLite / PostgreSQL ORM</text>
+      <text x="16" y="86" font-size="11" fill="#94a3b8">• Docker &amp; Docker Compose</text>
+      <text x="16" y="104" font-size="11" fill="#94a3b8">• Render Blueprint Architecture</text>
+      <text x="16" y="122" font-size="10" fill="#c084fc">render.yaml Multi-Service Spec</text>
+    </g>
+  </g>
+
+  <!-- ================= CONNECTING ARROWS ================= -->
+  <!-- 1.1 -> Feature Engine -->
+  <path d="M 250 178 L 290 178" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+  
+  <!-- Feature Engine -> ML Model -->
+  <path d="M 500 206 L 540 206" fill="none" stroke="#818cf8" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+  <!-- Feature Engine -> Risk Rules -->
+  <path d="M 500 374 L 540 374" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ML Model -> Decision Policy -->
+  <path d="M 750 178 L 790 178" fill="none" stroke="#818cf8" stroke-width="2" marker-end="url(#arrow-purple)"/>
+
+  <!-- Rules -> Decision Policy -->
+  <path d="M 750 374 Q 770 374 770 200 L 790 200" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Decision Policy -> Explainability & Cases -->
+  <path d="M 877 226 L 877 246" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrow-cyan)"/>
+  <path d="M 1072 226 L 1072 246" fill="none" stroke="#f97316" stroke-width="1.8" marker-end="url(#arrow-rose)"/>
+
+  <!-- Decision Policy -> Lower System Bus -->
+  <path d="M 1072 450 L 1072 485" fill="none" stroke="#334155" stroke-dasharray="4 4" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>

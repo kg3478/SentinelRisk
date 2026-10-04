@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#070b14"/>
+    </linearGradient>
+    <linearGradient id="cAllow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="cChallenge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#78350f"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="cReview" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c2d12"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+    <linearGradient id="cBlock" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#881337"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .t-title { font-family: 'Inter', -apple-system, sans-serif; font-size: 22px; font-weight: 800; fill: #ffffff; }
+    .t-sub { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; fill: #94a3b8; }
+    .tier-head { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 800; }
+    .tier-score { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; fill: #cbd5e1; }
+    .cell-title { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; fill: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+    .cell-body { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 400; fill: #f1f5f9; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1100" height="600" fill="url(#bg)" rx="16"/>
+  <rect x="1" y="1" width="1098" height="598" fill="none" stroke="#334155" stroke-width="1.5" rx="16"/>
+
+  <!-- Header -->
+  <g transform="translate(40, 42)">
+    <rect x="-8" y="-6" width="34" height="34" rx="8" fill="#10b981" opacity="0.2"/>
+    <text x="9" y="17" font-size="16" fill="#34d399" text-anchor="middle">⚖️</text>
+    <text x="36" y="12" class="t-title">SentinelRisk 4-Tier Decision Arbiter Matrix</text>
+    <text x="36" y="28" class="t-sub">Mathematical Synthesis of Calibrated ML Probabilities (0-100) &amp; Deterministic Rule Severities</text>
+  </g>
+
+  <!-- Table Container -->
+  <g transform="translate(40, 95)">
+    <!-- Column Headers -->
+    <rect width="1020" height="40" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="24" y="25" class="cell-title">Decision Action</text>
+    <text x="180" y="25" class="cell-title">ML Risk Band</text>
+    <text x="320" y="25" class="cell-title">Rule Trigger Precedence</text>
+    <text x="560" y="25" class="cell-title">Business Action &amp; Routing</text>
+    <text x="840" y="25" class="cell-title">Default Confidence</text>
+
+    <!-- ROW 1: ALLOW -->
+    <g transform="translate(0, 50)">
+      <rect width="1020" height="92" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2"/>
+      
+      <!-- Action Badge -->
+      <rect x="20" y="26" width="120" height="38" rx="6" fill="url(#cAllow)" stroke="#10b981"/>
+      <text x="80" y="50" class="tier-head" fill="#a7f3d0" text-anchor="middle">ALLOW</text>
+
+      <!-- Risk Band -->
+      <text x="180" y="44" class="tier-score" fill="#34d399">0.0 ≤ Score ≤ 20.0</text>
+      <text x="180" y="62" class="cell-body" fill="#94a3b8">LOW RISK BAND</text>
+
+      <!-- Rules -->
+      <text x="320" y="42" class="cell-body">Zero rule breaches</text>
+      <text x="320" y="60" class="cell-body" fill="#94a3b8">No anomalous feature deviation</text>
+
+      <!-- Business Action -->
+      <text x="560" y="42" class="cell-body" fill="#6ee7b7" font-weight="700">Immediate Authorization (&lt;15ms)</text>
+      <text x="560" y="60" class="cell-body" fill="#94a3b8">Cleared through payment network</text>
+
+      <!-- Confidence -->
+      <text x="840" y="44" font-family="'Inter', sans-serif" font-size="16" font-weight="800" fill="#34d399">98.0%</text>
+      <text x="840" y="62" class="cell-body" fill="#94a3b8">Ultra-high certainty</text>
+    </g>
+
+    <!-- ROW 2: CHALLENGE -->
+    <g transform="translate(0, 152)">
+      <rect width="1020" height="92" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2"/>
+      
+      <!-- Action Badge -->
+      <rect x="20" y="26" width="120" height="38" rx="6" fill="url(#cChallenge)" stroke="#f59e0b"/>
+      <text x="80" y="50" class="tier-head" fill="#fef08a" text-anchor="middle">CHALLENGE</text>
+
+      <!-- Risk Band -->
+      <text x="180" y="44" class="tier-score" fill="#facc15">20.0 &lt; Score ≤ 50.0</text>
+      <text x="180" y="62" class="cell-body" fill="#94a3b8">MEDIUM RISK BAND</text>
+
+      <!-- Rules -->
+      <text x="320" y="42" class="cell-body">OR Medium Rule Triggered</text>
+      <text x="320" y="60" class="cell-body" fill="#facc15">• RULE_NIGHT_HIGH_VALUE</text>
+
+      <!-- Business Action -->
+      <text x="560" y="42" class="cell-body" fill="#fef08a" font-weight="700">Step-Up Multi-Factor Auth (3DS / OTP)</text>
+      <text x="560" y="60" class="cell-body" fill="#94a3b8">Friction applied only to suspicious subset</text>
+
+      <!-- Confidence -->
+      <text x="840" y="44" font-family="'Inter', sans-serif" font-size="16" font-weight="800" fill="#facc15">92.0%</text>
+      <text x="840" y="62" class="cell-body" fill="#94a3b8">Verification requested</text>
+    </g>
+
+    <!-- ROW 3: REVIEW -->
+    <g transform="translate(0, 254)">
+      <rect width="1020" height="92" rx="8" fill="#0f172a" stroke="#f97316" stroke-width="1.2"/>
+      
+      <!-- Action Badge -->
+      <rect x="20" y="26" width="120" height="38" rx="6" fill="url(#cReview)" stroke="#f97316"/>
+      <text x="80" y="50" class="tier-head" fill="#fed7aa" text-anchor="middle">REVIEW</text>
+
+      <!-- Risk Band -->
+      <text x="180" y="44" class="tier-score" fill="#fb923c">50.0 &lt; Score &lt; 75.0</text>
+      <text x="180" y="62" class="cell-body" fill="#94a3b8">HIGH RISK BAND</text>
+
+      <!-- Rules -->
+      <text x="320" y="42" class="cell-body">OR Exactly 1 High Rule Triggered</text>
+      <text x="320" y="60" class="cell-body" fill="#fb923c">• EXTREME_AMOUNT / VELOCITY / PCA</text>
+
+      <!-- Business Action -->
+      <text x="560" y="42" class="cell-body" fill="#fdba74" font-weight="700">Route to Analyst Investigation Queue</text>
+      <text x="560" y="60" class="cell-body" fill="#94a3b8">Generates Case ID with priority HIGH</text>
+
+      <!-- Confidence -->
+      <text x="840" y="44" font-family="'Inter', sans-serif" font-size="16" font-weight="800" fill="#fb923c">90.0%</text>
+      <text x="840" y="62" class="cell-body" fill="#94a3b8">Human audit required</text>
+    </g>
+
+    <!-- ROW 4: BLOCK -->
+    <g transform="translate(0, 356)">
+      <rect width="1020" height="92" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1.4"/>
+      
+      <!-- Action Badge -->
+      <rect x="20" y="26" width="120" height="38" rx="6" fill="url(#cBlock)" stroke="#ef4444"/>
+      <text x="80" y="50" class="tier-head" fill="#fecdd3" text-anchor="middle">BLOCK</text>
+
+      <!-- Risk Band -->
+      <text x="180" y="44" class="tier-score" fill="#f87171">Score ≥ 75.0</text>
+      <text x="180" y="62" class="cell-body" fill="#94a3b8">CRITICAL RISK BAND</text>
+
+      <!-- Rules -->
+      <text x="320" y="42" class="cell-body" fill="#f87171">OR CRITICAL Rule OR ≥ 2 High Rules</text>
+      <text x="320" y="60" class="cell-body" fill="#f87171">• RULE_SCORE_BREACH</text>
+
+      <!-- Business Action -->
+      <text x="560" y="42" class="cell-body" fill="#fca5a5" font-weight="700">Hard Transaction Decline &amp; Critical Case</text>
+      <text x="560" y="60" class="cell-body" fill="#94a3b8">Prevents immediate financial chargeback</text>
+
+      <!-- Confidence -->
+      <text x="840" y="44" font-family="'Inter', sans-serif" font-size="16" font-weight="800" fill="#f87171">95.0% - 99.0%</text>
+      <text x="840" y="62" class="cell-body" fill="#94a3b8">min(0.99, 0.85 + S/200)</text>
+    </g>
+  </g>
+</svg>

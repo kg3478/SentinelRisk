@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#070b14"/>
+    </linearGradient>
+    <linearGradient id="optGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.0"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .ch-title { font-family: 'Inter', -apple-system, sans-serif; font-size: 22px; font-weight: 800; fill: #ffffff; }
+    .ch-sub { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; fill: #94a3b8; }
+    .axis-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; fill: #64748b; }
+    .legend-text { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; }
+  </style>
+
+  <!-- Background -->
+  <rect width="1100" height="640" fill="url(#bgG)" rx="16"/>
+  <rect x="1" y="1" width="1098" height="638" fill="none" stroke="#334155" stroke-width="1.5" rx="16"/>
+
+  <!-- Header -->
+  <g transform="translate(40, 42)">
+    <rect x="-8" y="-6" width="34" height="34" rx="8" fill="#6366f1" opacity="0.2"/>
+    <text x="9" y="17" font-size="16" fill="#818cf8" text-anchor="middle">📉</text>
+    <text x="36" y="12" class="ch-title">Cost-Sensitive Decision Threshold Optimization</text>
+    <text x="36" y="28" class="ch-sub">Minimizing Total Financial Impact: Balancing Missed Fraud Chargebacks, False-Alarm Customer Friction &amp; Review Labor</text>
+  </g>
+
+  <!-- Chart Canvas Area (X: 100 to 760, Y: 120 to 480) -->
+  <g transform="translate(80, 110)">
+    <!-- Grid lines -->
+    <line x1="0" y1="360" x2="680" y2="360" stroke="#334155" stroke-width="1.5"/>
+    <line x1="0" y1="0" x2="0" y2="360" stroke="#334155" stroke-width="1.5"/>
+
+    <line x1="0" y1="270" x2="680" y2="270" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 4"/>
+    <line x1="0" y1="180" x2="680" y2="180" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 4"/>
+    <line x1="0" y1="90" x2="680" y2="90" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 4"/>
+
+    <!-- Y-Axis Ticks -->
+    <text x="-15" y="365" class="axis-label" text-anchor="end">$0</text>
+    <text x="-15" y="275" class="axis-label" text-anchor="end">$25k</text>
+    <text x="-15" y="185" class="axis-label" text-anchor="end">$50k</text>
+    <text x="-15" y="95" class="axis-label" text-anchor="end">$75k</text>
+    <text x="-15" y="10" class="axis-label" text-anchor="end">$100k</text>
+
+    <!-- X-Axis Ticks (Operating Thresholds 0 to 100) -->
+    <text x="0" y="385" class="axis-label" text-anchor="middle">0</text>
+    <text x="136" y="385" class="axis-label" text-anchor="middle">20 (ALLOW Cutoff)</text>
+    <text x="272" y="385" class="axis-label" text-anchor="middle">40</text>
+    <text x="408" y="385" class="axis-label" text-anchor="middle">60</text>
+    <text x="510" y="385" class="axis-label" text-anchor="middle" fill="#f87171" font-weight="700">75 (BLOCK Cutoff)</text>
+    <text x="680" y="385" class="axis-label" text-anchor="middle">100</text>
+
+    <!-- Axis Labels -->
+    <text x="340" y="420" class="axis-label" text-anchor="middle" fill="#cbd5e1" font-weight="700">Decision Risk Score Threshold (θ)</text>
+    <text x="-50" y="180" class="axis-label" text-anchor="middle" fill="#cbd5e1" font-weight="700" transform="rotate(-90, -50, 180)">Financial Cost ($ USD)</text>
+
+    <!-- Optimal Area Highlight (Threshold ~ 20 to 25) -->
+    <rect x="120" y="0" width="100" height="360" fill="url(#optGlow)"/>
+    <line x1="170" y1="0" x2="170" y2="360" stroke="#818cf8" stroke-width="1.8" stroke-dasharray="4 4"/>
+    <text x="170" y="-10" font-family="'Inter', sans-serif" font-size="11" font-weight="800" fill="#a5b4fc" text-anchor="middle">Optimal θ* ≈ 25</text>
+
+    <!-- Curve 1: Missed Fraud Loss (Red) -> Low threshold catches fraud, high threshold misses fraud -->
+    <!-- Starts low at x=0 (y=340), rises sharply to x=680 (y=50) -->
+    <path d="M 0 340 C 200 330, 400 240, 680 50" fill="none" stroke="#ef4444" stroke-width="3"/>
+
+    <!-- Curve 2: False Positive Friction Cost (Amber) -> Low threshold blocks everyone, high threshold blocks none -->
+    <!-- Starts high at x=0 (y=40), drops sharply to x=680 (y=350) -->
+    <path d="M 0 40 C 120 180, 300 320, 680 350" fill="none" stroke="#f59e0b" stroke-width="3"/>
+
+    <!-- Curve 3: Review Operational Cost (Cyan) -> Peaks in the middle review zone -->
+    <path d="M 0 350 C 150 340, 200 230, 350 250 C 450 270, 550 330, 680 355" fill="none" stroke="#06b6d4" stroke-width="2" stroke-dasharray="5 5"/>
+
+    <!-- Curve 4: Total Economic Cost Curve (Indigo / White highlight) -> Sum of curves, U-shaped minimum around x=170 -->
+    <path d="M 0 60 C 100 130, 170 170, 250 185 C 380 210, 520 140, 680 70" fill="none" stroke="#818cf8" stroke-width="3.5"/>
+    <circle cx="170" cy="170" r="6" fill="#818cf8" stroke="#ffffff" stroke-width="2"/>
+  </g>
+
+  <!-- Sidebar: Metrics & Legend (X: 810 to 1050) -->
+  <g transform="translate(800, 110)">
+    <!-- Legend Box -->
+    <rect width="260" height="150" rx="10" fill="#1e293b" stroke="#334155"/>
+    <text x="18" y="26" class="legend-text" fill="#f8fafc">Cost Model Components</text>
+
+    <line x1="18" y1="50" x2="48" y2="50" stroke="#818cf8" stroke-width="3"/>
+    <text x="56" y="54" class="legend-text" fill="#818cf8">Total Economic Cost C(θ)</text>
+
+    <line x1="18" y1="78" x2="48" y2="78" stroke="#ef4444" stroke-width="2.5"/>
+    <text x="56" y="82" class="legend-text" fill="#ef4444">Missed Fraud Loss ($100/tx)</text>
+
+    <line x1="18" y1="106" x2="48" y2="106" stroke="#f59e0b" stroke-width="2.5"/>
+    <text x="56" y="110" class="legend-text" fill="#f59e0b">False Positive Friction ($50)</text>
+
+    <line x1="18" y1="134" x2="48" y2="134" stroke="#06b6d4" stroke-width="2" stroke-dasharray="3 3"/>
+    <text x="56" y="138" class="legend-text" fill="#06b6d4">Manual Review Labor ($15)</text>
+
+    <!-- Operational KPI Box -->
+    <g transform="translate(0, 170)">
+      <rect width="260" height="235" rx="10" fill="#111c38" stroke="#1e293b"/>
+      <text x="18" y="26" class="legend-text" fill="#38bdf8">Simulated Benchmark Impact</text>
+      
+      <text x="18" y="56" font-size="11" fill="#94a3b8">Evaluated on 42,722 Unseen Test TXs</text>
+      
+      <rect x="18" y="70" width="224" height="42" rx="6" fill="#064e3b" stroke="#10b981"/>
+      <text x="28" y="88" font-size="10" fill="#a7f3d0">Fraud Capture Rate</text>
+      <text x="28" y="104" font-size="15" font-weight="800" fill="#6ee7b7">91.2% Captured</text>
+
+      <rect x="18" y="122" width="224" height="42" rx="6" fill="#1e293b" stroke="#334155"/>
+      <text x="28" y="140" font-size="10" fill="#94a3b8">False Positive Rate (FPR)</text>
+      <text x="28" y="156" font-size="15" font-weight="800" fill="#f8fafc">0.84% (Low Friction)</text>
+
+      <rect x="18" y="174" width="224" height="45" rx="6" fill="#1e1b4b" stroke="#6366f1"/>
+      <text x="28" y="192" font-size="10" fill="#c7d2fe">Net Financial Savings</text>
+      <text x="28" y="209" font-size="14" font-weight="800" fill="#818cf8">+€142,500 vs Raw Baseline</text>
+    </g>
+  </g>
+</svg>
